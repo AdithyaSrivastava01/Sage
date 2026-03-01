@@ -17,8 +17,8 @@ Student speaks  ──>  Web Speech Recognition (browser-native)
                            |
             ┌──────────────┼──────────────┐
             v              v              v
-       Azure/Claude/    Tool calls     Manim server
-       Gemini/GPT       (canvas,       (video gen)
+       Azure OpenAI     Tool calls     Manim server
+       GPT-4o           (canvas,       (video gen)
        response         sandbox,
        (speech text)    video,
             |           progress)
@@ -41,7 +41,7 @@ Student speaks  ──>  Web Speech Recognition (browser-native)
 | Styling | Tailwind CSS v4 + shadcn/ui |
 | State | Zustand 5 |
 | Database | Drizzle ORM + PostgreSQL (Supabase) |
-| AI | Vercel AI SDK (`ai@6`) |
+| AI | Vercel AI SDK (`ai@6`) + Azure OpenAI |
 | TTS | Web Speech Synthesis (browser-native) |
 | ASR | Web Speech Recognition (browser-native) |
 | Math | Desmos API + GeoGebra |
@@ -52,8 +52,8 @@ Student speaks  ──>  Web Speech Recognition (browser-native)
 
 | Model | Provider | ID |
 |-------|----------|----|
-| Claude Sonnet 4.5 | Anthropic | `claude-sonnet-4-5-20250929` |
-| Claude Haiku 4.5 | Anthropic | `claude-haiku-4-5-20251001` |
+| GPT-4o | Azure OpenAI | `azure-gpt-4o` |
+| GPT-4o Mini | Azure OpenAI | `azure-gpt-4o-mini` |
 
 ---
 
@@ -71,8 +71,9 @@ Student speaks  ──>  Web Speech Recognition (browser-native)
 Create `.env.local` in the project root:
 
 ```env
-# Anthropic (required)
-ANTHROPIC_API_KEY=sk-ant-...
+# Azure OpenAI (required)
+AZURE_OPENAI_API_KEY=your-azure-openai-key
+AZURE_OPENAI_RESOURCE_NAME=your-resource-name
 
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -89,12 +90,15 @@ NEXT_PUBLIC_URL=http://localhost:3000
 Create `manim-server/.env`:
 
 ```env
-ANTHROPIC_API_KEY=sk-ant-...
-ANTHROPIC_MODEL=claude-haiku-4-5-20251001
+AZURE_OPENAI_API_KEY=your-azure-openai-key
+AZURE_OPENAI_RESOURCE_NAME=your-resource-name
+AZURE_OPENAI_MODEL=gpt-4o-mini
 FLASK_HOST=0.0.0.0
 FLASK_PORT=5000
 BASE_URL=http://localhost:5000
 ```
+
+> **Azure OpenAI setup:** Create an Azure OpenAI resource in the [Azure Portal](https://portal.azure.com). Deploy `gpt-4o` and `gpt-4o-mini` models. Get your API key and resource name from the resource's Keys and Endpoint page.
 
 > **Supabase setup:** Create a free project at [supabase.com](https://supabase.com). Get your keys from Project Settings → Data API. For `DATABASE_URL`, use the **Transaction pooler** URI from Project Settings → Database.
 
@@ -156,7 +160,7 @@ src/
     useUserCamera.ts             # Native getUserMedia
 
   lib/
-    ai/client.ts                 # Multi-model AI client (Azure, Anthropic, Google, OpenAI)
+    ai/client.ts                 # Azure OpenAI client (GPT-4o, GPT-4o Mini)
     ai/prompts.ts                # Socratic teaching system prompts
     deepgram/client.ts           # Web Speech Recognition ASR
     canvas/                      # Desmos 2D/3D + GeoGebra wrappers
