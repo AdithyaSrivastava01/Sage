@@ -1,0 +1,65 @@
+import type { Metadata } from "next";
+import {
+  Geist,
+  Geist_Mono,
+  Space_Grotesk,
+  DM_Sans,
+  Outfit,
+  Kalam,
+} from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
+  subsets: ["latin"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const kalam = Kalam({
+  variable: "--font-handwriting",
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+});
+
+export const metadata: Metadata = {
+  title: "Sage AI | Socratic Education 24/7",
+  description:
+    "Sage provides individualized education via an AI tutor using real-time voice and the Socratic method.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${dmSans.variable} ${outfit.variable} ${kalam.variable} antialiased min-h-screen`}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}
